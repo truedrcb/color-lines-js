@@ -60,5 +60,5 @@ class PlayField extends React.Component {
 
 console.log("test color lines");
 
-ReactDOM.render(e(PlayField, {board: [1,2,0,3,4], selected: 1}), document.querySelector('#color_lines_container'));
+ReactDOM.render(e(PlayField, {board: new Game().getBoard(), selected: 1}), document.querySelector('#color_lines_container'));
 ReactDOM.render(e(LikeButton), document.getElementById('like_button_container'));
