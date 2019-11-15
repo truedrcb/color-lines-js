@@ -42,7 +42,7 @@ class PlayField extends React.Component {
         for (var y = 0; y < this.state.sizeY; y++) {
             var cells = [];
             for (var x = 0; x < this.state.sizeX; x++) {
-                cells.push(e('div', {className: 'col tile'}, 
+                cells.push(e('div', {className: 'col tile bCLOUDS'}, 
                     e('i', {className: 'fas fa-fw'
                         + (this.props.board[i] ? ' fa-bowling-ball PUMPKIN' : ' CLOUDS') 
                         + (i == this.props.selected ? ' fa-spin' : '')
