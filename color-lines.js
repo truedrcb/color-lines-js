@@ -27,6 +27,16 @@ class LikeButton extends React.Component {
     }
 }
 
+const colors = [
+    'POMEGRANATE', //red,
+    'WISTERIA', //magenta,
+    'BELIZE-HOLE', //blue,
+    'TURQUOISE', //cyan,
+    'SUN-FLOWER', //yellow,
+    'NEPHRITIS', //green,
+    'ORANGE' //orange
+];
+
 class PlayField extends React.Component {
     constructor(props) {
         super(props);
@@ -42,9 +52,16 @@ class PlayField extends React.Component {
         for (var y = 0; y < this.state.sizeY; y++) {
             var cells = [];
             for (var x = 0; x < this.state.sizeX; x++) {
+                var colorIndex = this.props.board[i];
+                var color = null;
+                if (colorIndex) {
+                    if (colorIndex > 0 && colorIndex <= colors.length) {
+                        color = colors[colorIndex - 1];
+                    }
+                }
                 cells.push(e('div', {className: 'col tile bCLOUDS'}, 
                     e('i', {className: 'fas fa-fw'
-                        + (this.props.board[i] ? ' fa-bowling-ball PUMPKIN' : ' CLOUDS') 
+                        + (color ? (' fa-bowling-ball ' + color) : ' fa-bowling-ball CLOUDS') 
                         + (i == this.props.selected ? ' fa-spin' : '')
                         }, '')));
                 i++;
