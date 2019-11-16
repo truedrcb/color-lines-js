@@ -1,7 +1,7 @@
 class Game {
-    constructor() {
-        this.sizeX = 9;
-        this.sizeY = 9;
+    constructor(sizeX, sizeY) {
+        this.sizeX = sizeX || 9;
+        this.sizeY = sizeY || sizeX || 9;
         this.selectedIndex = -1;
 
         this.board = [];
@@ -32,5 +32,8 @@ class Game {
         return count;
     }
 
+    setBall(tileIndex, colorIndex) {
+        this.board[tileIndex] = colorIndex;
+    }
 
 }

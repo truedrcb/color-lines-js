@@ -34,7 +34,7 @@ const colors = [
     'TURQUOISE', //cyan,
     'SUN-FLOWER', //yellow,
     'NEPHRITIS', //green,
-    'ORANGE' //orange
+    'CARROT' //orange
 ];
 
 class PlayField extends React.Component {
@@ -76,6 +76,11 @@ class PlayField extends React.Component {
 
 
 console.log("test color lines");
+var game = new Game();
 
-ReactDOM.render(e(PlayField, {board: new Game().getBoard(), selected: 1}), document.querySelector('#color_lines_container'));
+for (var i = 0; i < 10; i++) {
+    game.setBall(Math.floor(Math.random() * 81), Math.floor(Math.random() * 7 + 1));
+}
+
+ReactDOM.render(e(PlayField, {board: game.getBoard(), selected: 1}), document.querySelector('#color_lines_container'));
 ReactDOM.render(e(LikeButton), document.getElementById('like_button_container'));
