@@ -75,12 +75,31 @@ class PlayField extends React.Component {
 }
 
 
-console.log("test color lines");
-var game = new Game();
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        console.log("test color lines");
+        this.game = new Game();
+        for (var i = 0; i < 30; i++) {
+            this.game.randomBallOnFreeTile();
+        }
+        this.state = {
+            board: this.game.getBoard(), 
+            selected: -1
+        };
+        this.handleSelect = this.handleSelect.bind(this);
+    }
 
-for (var i = 0; i < 30; i++) {
-    game.randomBallOnFreeTile();
+    render() {
+        return e(PlayField, {board: this.state.board, selected: this.state.selected});
+    }
+
+    handleSelect(tileIndex) {
+        this.state.selected = tileIndex;
+    }
 }
 
-ReactDOM.render(e(PlayField, {board: game.getBoard(), selected: 1}), document.querySelector('#color_lines_container'));
+
+
+ReactDOM.render(e(App), document.querySelector('#color_lines_container'));
 ReactDOM.render(e(LikeButton), document.getElementById('like_button_container'));
