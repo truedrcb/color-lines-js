@@ -37,6 +37,34 @@ const colors = [
     'CARROT' //orange
 ];
 
+class Tile extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        var props = this.props;
+        var color = null;
+        if (props.colorIndex) {
+            if (props.colorIndex > 0 && props.colorIndex <= colors.length) {
+                color = colors[this.props.colorIndex - 1];
+            }
+        }
+        return e('div', {
+                className: 'col tile bCLOUDS', 
+                onClick: function() {
+                    props.onTileClick(props.tileIndex);
+                }
+            }, 
+            e('i', {className: 'fas fa-fw'
+                + (color ? (' fa-bowling-ball ' + color) : ' fa-bowling-ball CLOUDS') 
+                + (props.selected ? ' fa-spin' : '')
+            }, '')
+        )        
+    }
+
+}
+
 class PlayField extends React.Component {
     constructor(props) {
         super(props);
@@ -49,21 +77,19 @@ class PlayField extends React.Component {
     render() {
         var rows = [];
         var i = 0;
+        var props = this.props;
         for (var y = 0; y < this.state.sizeY; y++) {
             var cells = [];
             for (var x = 0; x < this.state.sizeX; x++) {
-                var colorIndex = this.props.board[i];
-                var color = null;
-                if (colorIndex) {
-                    if (colorIndex > 0 && colorIndex <= colors.length) {
-                        color = colors[colorIndex - 1];
-                    }
-                }
-                cells.push(e('div', {key: x, className: 'col tile bCLOUDS'}, 
-                    e('i', {className: 'fas fa-fw'
-                        + (color ? (' fa-bowling-ball ' + color) : ' fa-bowling-ball CLOUDS') 
-                        + (i == this.props.selected ? ' fa-spin' : '')
-                        }, '')));
+                cells.push(
+                    e(Tile, {
+                        key: x, 
+                        tileIndex: i,
+                        selected: i == props.selected,
+                        colorIndex: props.board[i],
+                        onTileClick: props.onTileClick
+                    })
+                );
                 i++;
             }
             rows.push(e('div', {key: y, className: 'row'}, cells));
@@ -85,17 +111,26 @@ class App extends React.Component {
         }
         this.state = {
             board: this.game.getBoard(), 
-            selected: -1
+            selected: 1
         };
         this.handleSelect = this.handleSelect.bind(this);
     }
 
     render() {
-        return e(PlayField, {board: this.state.board, selected: this.state.selected});
+        return e(PlayField, {
+            board: this.state.board, 
+            selected: this.state.selected,
+            onTileClick: this.handleSelect
+        });
     }
 
     handleSelect(tileIndex) {
-        this.state.selected = tileIndex;
+        console.log("Tile clicked:");
+        console.log(tileIndex);
+        this.setState({
+            board: this.game.getBoard(), 
+            selected: tileIndex
+        });
     }
 }
 
