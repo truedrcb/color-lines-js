@@ -59,14 +59,14 @@ class PlayField extends React.Component {
                         color = colors[colorIndex - 1];
                     }
                 }
-                cells.push(e('div', {className: 'col tile bCLOUDS'}, 
+                cells.push(e('div', {key: x, className: 'col tile bCLOUDS'}, 
                     e('i', {className: 'fas fa-fw'
                         + (color ? (' fa-bowling-ball ' + color) : ' fa-bowling-ball CLOUDS') 
                         + (i == this.props.selected ? ' fa-spin' : '')
                         }, '')));
                 i++;
             }
-            rows.push(e('div', {className: 'row'}, cells));
+            rows.push(e('div', {key: y, className: 'row'}, cells));
         }
 
         return e('div', {className: 'container'}, rows);
