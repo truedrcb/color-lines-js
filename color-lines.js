@@ -78,8 +78,8 @@ class PlayField extends React.Component {
 console.log("test color lines");
 var game = new Game();
 
-for (var i = 0; i < 10; i++) {
-    game.setBall(Math.floor(Math.random() * 81), Math.floor(Math.random() * 7 + 1));
+for (var i = 0; i < 30; i++) {
+    game.randomBallOnFreeTile();
 }
 
 ReactDOM.render(e(PlayField, {board: game.getBoard(), selected: 1}), document.querySelector('#color_lines_container'));
