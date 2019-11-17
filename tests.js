@@ -61,3 +61,29 @@ QUnit.test("Random index returns integers", function (assert) {
         assert.ok(Number.isInteger(r), "Random number is integer: " + r);
     }
 });
+
+QUnit.test("Simple move ball", function (assert) {
+    var game = new Game(5);
+
+    game.setBall(10, 3);
+    assert.strictEqual(game.countBalls(), 1, "1 ball in game");
+    assert.strictEqual(game.getBoard()[10], 3, "ball on position 10");
+
+    game.moveBall(10, 15);
+    assert.strictEqual(game.countBalls(), 1, "1 ball in game");
+    assert.strictEqual(game.getBoard()[10], 0, "no ball on position 10");
+    assert.strictEqual(game.getBoard()[15], 3, "ball on position 15");
+});
+
+
+QUnit.test("Get ball", function (assert) {
+    var game = new Game(5);
+
+    game.setBall(10, 3);
+    assert.strictEqual(game.countBalls(), 1, "1 ball in game");
+    assert.strictEqual(game.getBall(10), 3, "ball on position 10");
+
+    assert.notOk(game.getBall(11), "no ball on position 11");
+    assert.notOk(game.getBall(-11), "no ball on position -11");
+    assert.notOk(game.getBall(25), "no ball on position 25");
+});

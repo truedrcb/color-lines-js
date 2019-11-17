@@ -45,6 +45,18 @@ class Game {
         this.board[tileIndex] = colorIndex;
     }
 
+    getBall(tileIndex) {
+        if (tileIndex >= 0 || tileIndex < this.board.length) {
+            return this.board[tileIndex];
+        }
+        return undefined;
+    }
+
+    moveBall(fromTile, toTile) {
+        this.board[toTile] = this.board[fromTile];
+        this.board[fromTile] = 0;
+    }
+
     randomBallOnFreeTile() {
         var numberOfTiles = this.getBoardSize();
         var numberOfFreeTiles = numberOfTiles - this.countBalls();

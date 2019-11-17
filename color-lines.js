@@ -127,6 +127,13 @@ class App extends React.Component {
     handleSelect(tileIndex) {
         console.log("Tile clicked:");
         console.log(tileIndex);
+        if (this.game.getBall(tileIndex)) {
+            // move focus
+        } else if (this.game.getBall(this.state.selected)) {
+            this.game.moveBall(this.state.selected, tileIndex);
+            this.game.randomBallOnFreeTile();
+            tileIndex = -1;
+        }
         this.setState({
             board: this.game.getBoard(), 
             selected: tileIndex
