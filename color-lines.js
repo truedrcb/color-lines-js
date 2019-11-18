@@ -51,14 +51,14 @@ class Tile extends React.Component {
             }
         }
         return e('div', {
-                className: 'col tile bCLOUDS', 
+                className: 'col tile', 
                 onClick: function() {
                     props.onTileClick(props.tileIndex);
                 }
             }, 
-            e('i', {className: 'fas fa-fw'
-                + (color ? (' fa-bowling-ball ' + color) : ' fa-bowling-ball CLOUDS') 
-                + (props.selected ? ' fa-spin' : '')
+            e('i', {className: 'fa-fw'
+                + (color ? (' fas fa-bowling-ball ball ' + color) : ' far fa-circle no-ball') 
+                + (props.selected ? ' selected' : '')
             }, '')
         )        
     }
@@ -106,7 +106,7 @@ class App extends React.Component {
         super(props);
         console.log("test color lines");
         this.game = new Game();
-        for (var i = 0; i < 30; i++) {
+        for (var i = 0; i < 5; i++) {
             this.game.randomBallOnFreeTile();
         }
         this.state = {

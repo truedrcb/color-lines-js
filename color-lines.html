@@ -53,11 +53,49 @@
                 border-radius: 1ex;
                 margin: 0 1ex 1ex 0;
                 padding: 1ex;
+                background: rgb(236, 240, 241);
+            }
+
+            .tile:hover {
+                background: rgb(149, 165, 166);
             }
 
             .tile i {
                 font-size: 3rem;
             }
+
+            .tile .ball {
+                text-shadow: 0 .2ex .1ex #00000020;
+
+                align-self: flex-end;
+                animation-duration: 2s;
+                animation-iteration-count: infinite;
+                transform-origin: bottom;
+            }
+
+            .tile .selected {
+                animation-name: bounce-6;
+                animation-timing-function: ease;
+            }
+
+            @keyframes bounce-6 {
+                0%   { transform: scale(1,1)      translateY(0); }
+                10%  { transform: scale(1.1,.9)   translateY(0); }
+                30%  { transform: scale(.9,1.1)   translateY(-.5em); }
+                50%  { transform: scale(1.05,.95) translateY(0); }
+                57%  { transform: scale(1,1)      translateY(-.2ex); }
+                64%  { transform: scale(1,1)      translateY(0); }
+                100% { transform: scale(1,1)      translateY(0); }
+            }
+
+            .tile .no-ball {
+                color: rgb(236, 240, 241);
+            }
+
+            .tile:hover .no-ball {
+                color: rgb(149, 165, 166);
+            }
+
         </style>
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
