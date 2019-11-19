@@ -81,4 +81,49 @@ class Game {
         }
     }
 
+    findPath(fromTile, toTile) {
+        var numberOfTiles = this.getBoardSize();
+        var path = [fromTile];
+        if (fromTile == toTile) {
+            return path;
+        }
+
+        var maskMap = [];
+        for(var i ; i < numberOfTiles; i++ ) {
+            if (!this.board[i]) {
+                maskMap.push(0)
+            } else {
+                maskMap.push(-1);
+            }
+        }
+
+        maskMap[fromTile] = 1;
+        for(var step = 1 ; step < numberOfTiles; step++ ) {
+            
+        }
+
+    }
+
+    nextTiles(tileIndex) {
+        var nextTiles = [];
+        if (tileIndex < 0 || tileIndex >= this.board.length) {
+            return nextTiles;
+        }
+        var tileX = tileIndex % this.sizeX;
+        var tileY = Math.floor(tileIndex / this.sizeX);
+        if (tileX > 0) {
+            nextTiles.push(tileIndex - 1);
+        }
+        if (tileY > 0) {
+            nextTiles.push(tileIndex - this.sizeX);
+        }
+        if (tileX < this.sizeX - 1) {
+            nextTiles.push(tileIndex + 1);
+        }
+        if (tileY < this.sizeY - 1) {
+            nextTiles.push(tileIndex + this.sizeX);
+        }
+        return nextTiles;
+    }
+
 }

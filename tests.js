@@ -87,3 +87,31 @@ QUnit.test("Get ball", function (assert) {
     assert.notOk(game.getBall(-11), "no ball on position -11");
     assert.notOk(game.getBall(25), "no ball on position 25");
 });
+
+
+function assertNextTiles(assert, actualTiles, expectedTiles) {
+    assert.deepEqual(actualTiles.sort(function(a, b){return a - b}), expectedTiles.sort(function(a, b){return a - b}));
+}
+
+QUnit.test("Find next tiles", function (assert) {
+    var game = new Game(5);
+
+    assert.strictEqual(game.nextTiles(-1).length, 0);
+    assert.strictEqual(game.nextTiles(0).length, 2);
+    assertNextTiles(assert, game.nextTiles(0), [1, 5]);
+    assert.strictEqual(game.nextTiles(1).length, 3);
+    assertNextTiles(assert, game.nextTiles(1), [0, 2, 6]);
+    assert.strictEqual(game.nextTiles(4).length, 2);
+    assertNextTiles(assert, game.nextTiles(4), [3, 9]);
+    assert.strictEqual(game.nextTiles(5).length, 3);
+    assertNextTiles(assert, game.nextTiles(5), [0, 6, 10]);
+    assert.strictEqual(game.nextTiles(6).length, 4);
+    assertNextTiles(assert, game.nextTiles(6), [1, 5, 7, 11]);
+});
+
+QUnit.test("Find simple path", function (assert) {
+    var game = new Game(5);
+
+    var path = game.findPath(0, 4);
+    assert.strictEqual(path, [0, 1, 2, 3, 4]);
+});
