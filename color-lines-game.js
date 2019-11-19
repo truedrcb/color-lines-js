@@ -171,5 +171,4 @@ class Game {
         }
         return nextTiles;
     }
-
 }
