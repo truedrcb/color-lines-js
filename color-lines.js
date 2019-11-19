@@ -2,31 +2,6 @@
 
 const e = React.createElement;
 
-class LikeButton extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            liked: false
-        };
-    }
-
-    render() {
-        if (this.state.liked) {
-            return 'You liked this.';
-        }
-
-        return e(
-            'button', {
-                onClick: () => this.setState({
-                    liked: true
-                }),
-                className: "btn btn-primary"
-            },
-            'Like'
-        );
-    }
-}
-
 const colors = [
     'POMEGRANATE', //red,
     'WISTERIA', //magenta,
@@ -110,13 +85,13 @@ class App extends React.Component {
         super(props);
         console.log("test color lines");
         this.game = new Game();
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < 3; i++) {
             this.game.randomBallOnFreeTile();
         }
         this.state = {
             board: this.game.getBoard(), 
-            selectedIndex: 1,
-            unselectedIndex: 10,
+            selectedIndex: -1,
+            unselectedIndex: -1,
             appearedIndices: [],
             path: []
         };
@@ -148,9 +123,9 @@ class App extends React.Component {
                 path = this.game.findPath(this.state.selectedIndex, tileIndex);
                 if (path) {
                     this.game.moveBall(this.state.selectedIndex, tileIndex);
-                    appearedIndices.push(this.game.randomBallOnFreeTile());
-                    appearedIndices.push(this.game.randomBallOnFreeTile());
-                    appearedIndices.push(this.game.randomBallOnFreeTile());
+                    for (var i = 0; i < 3; i++) {
+                        appearedIndices.push(this.game.randomBallOnFreeTile());
+                    }
                     console.log("new balls: " + appearedIndices);
                     tileIndex = -1;
                 } else {
@@ -169,7 +144,4 @@ class App extends React.Component {
     }
 }
 
-
-
 ReactDOM.render(e(App), document.querySelector('#color_lines_container'));
-ReactDOM.render(e(LikeButton), document.getElementById('like_button_container'));

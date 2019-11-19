@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <title>Color Lines.js by DRCB</title>
+        <link href="https://fonts.googleapis.com/css?family=Orbitron&display=swap" rel="stylesheet">
         <style>
             .TURQUOISE { color: rgb(26, 188, 156); }
             .EMERALD { color: rgb(46, 204, 113); }
@@ -124,16 +125,24 @@
                 to {color: rgb(236, 240, 241);}
             }
 
+            .game h1, .game h2, .game h3 {
+                font-family: 'Orbitron', sans-serif;
+            }
         </style>
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src="https://kit.fontawesome.com/9c8dd5d497.js" crossorigin="anonymous"></script>
     </head>
-    <body>
+    <body class="game">
         <main class="container">
-           <h1><i class="fab fa-react PETER-RIVER"></i> Color Lines.js 2019</h1>
-           <div id="color_lines_container">Here comes a game</div>
-           <div id="like_button_container">Here a test button</div>
+           <h1>Color Lines.js 2019</h1>
+           <div id="color_lines_container">Here be game</div>
+           <footer>
+            <h3>
+                <span>© 2019</span> <a href="http://artem.gratchev.com" target="_blank">Artem Gratchev</a><span></span>
+                <span class="float-right"><a href="https://github.com/truedrcb/color-lines-js" target="_blank" title="Me @ Github"><i class="fab fa-github"></i></a></span>
+            </h3>
+        </footer>
         </main>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -146,6 +155,5 @@
       
         <!-- Load our React component. -->
         <script src="color-lines.js"></script>
-      
     </body>
 </html>
