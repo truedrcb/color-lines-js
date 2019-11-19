@@ -70,7 +70,7 @@ class Game {
         var randomTileIndex = randomIndex(numberOfFreeTiles);
 
         var i = 0;
-        for( ; i < numberOfTiles; i++ ) {
+        for ( ; i < numberOfTiles; i++ ) {
             if (!this.board[i]) {
                 if (randomTileIndex <= 0) {
                     this.board[i] = randomColorIndex;
@@ -81,15 +81,26 @@ class Game {
         }
     }
 
+    dumpBoard(board) {
+        var i = 0;
+        for (var y = 0; y < this.sizeY; y++) {
+            var line = " ";
+            for (var x = 0; x < this.sizeX; x++, i++) {
+                line += ("" + board[i]).padStart(4, " ");
+                line += " ";
+            }
+            console.log(y + ": [" + line + "]");
+        }
+    }
+
     findPath(fromTile, toTile) {
         var numberOfTiles = this.getBoardSize();
-        var path = [fromTile];
         if (fromTile == toTile) {
-            return path;
+            return [fromTile];
         }
 
         var maskMap = [];
-        for(var i ; i < numberOfTiles; i++ ) {
+        for (var i = 0 ; i < numberOfTiles; i++ ) {
             if (!this.board[i]) {
                 maskMap.push(0)
             } else {
@@ -98,10 +109,45 @@ class Game {
         }
 
         maskMap[fromTile] = 1;
-        for(var step = 1 ; step < numberOfTiles; step++ ) {
-            
+        var lastStep = 0;
+        for (var step = 1 ; step < numberOfTiles; step++ ) {
+            for (var i = 0 ; i < numberOfTiles; i++ ) {
+                // current step found
+                if (maskMap[i] == step) {
+                    this.nextTiles(i).forEach(ni => {
+                        if (!maskMap[ni]) {
+                            maskMap[ni] = step + 1;
+                        }
+                        if (ni === toTile) {
+                            lastStep = step;
+                        }
+                    });
+                }
+                if (lastStep) break;
+            }
+            if (lastStep) break;
         }
 
+        this.dumpBoard(maskMap);
+
+        if (!lastStep) {
+            return;
+        }
+
+        var tailTile = toTile;
+        var path = [toTile];
+
+        for (; lastStep > 1; lastStep--) {
+            this.nextTiles(tailTile).forEach(ni => {
+                if (maskMap[ni] === lastStep) {
+                    tailTile = ni;
+                }
+            });
+            path.unshift(tailTile);
+        }
+        path.unshift(fromTile);
+
+        return path;
     }
 
     nextTiles(tileIndex) {

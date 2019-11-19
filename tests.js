@@ -109,9 +109,56 @@ QUnit.test("Find next tiles", function (assert) {
     assertNextTiles(assert, game.nextTiles(6), [1, 5, 7, 11]);
 });
 
-QUnit.test("Find simple path", function (assert) {
+QUnit.test("Find simple horizontal path", function (assert) {
     var game = new Game(5);
 
-    var path = game.findPath(0, 4);
-    assert.strictEqual(path, [0, 1, 2, 3, 4]);
+    assert.deepEqual(game.findPath(0, 4), [0, 1, 2, 3, 4]);
+
+    assert.deepEqual(game.findPath(4, 0), [4, 3, 2, 1, 0]);
+
+    assert.deepEqual(game.findPath(0, 1), [0, 1]);
+});
+
+QUnit.test("Find simple vertical path", function (assert) {
+    var game = new Game(5);
+    
+    assert.deepEqual(game.findPath(0, 20), [0, 5, 10, 15, 20]);
+
+    assert.deepEqual(game.findPath(15, 20), [15, 20]);
+});
+
+QUnit.test("Find simple diagonal path", function (assert) {
+    var game = new Game(5);
+    
+    var path = game.findPath(4, 20);
+    assert.strictEqual(path.length, 9);
+    assert.strictEqual(path[0], 4);
+    assert.strictEqual(path[8], 20);
+});
+
+
+QUnit.test("No path", function (assert) {
+    var game = new Game(5);
+    game.setBall(1, 6);
+    game.setBall(5, 6);
+
+    assert.notOk(game.findPath(0, 4));
+    assert.notOk(game.findPath(4, 0));
+});
+
+QUnit.test("Long path", function (assert) {
+    var game = new Game(5);
+    game.board = 
+        [ 
+            0, 5, 0, 0, 0,
+            0, 5, 0, 5, 0,
+            0, 5, 0, 5, 0,
+            0, 5, 0, 5, 0,
+            0, 0, 0, 5, 0
+        ];
+
+    assert.deepEqual(game.findPath(0, 24), 
+        [0, 5, 10, 15, 20, 21, 22, 17, 12, 7, 2, 3, 4, 9, 14, 19, 24]);
+    game.setBall(2, 6);
+    assert.notOk(game.findPath(0, 24));
 });
