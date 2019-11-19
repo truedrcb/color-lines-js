@@ -89,7 +89,7 @@ class Game {
                 line += ("" + board[i]).padStart(4, " ");
                 line += " ";
             }
-            console.log(y + ": [" + line + "]");
+            console.debug(y + ": [" + line + "]");
         }
     }
 

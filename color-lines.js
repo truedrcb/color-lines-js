@@ -51,7 +51,9 @@ class Tile extends React.Component {
             }
         }
         return e('div', {
-                className: 'col tile' + (props.unselected ? ' tile-fade' : ''), 
+                className: 'col tile' 
+                    + (props.unselected ? ' tile-fade' : '') 
+                    + (props.inPath ? ' tile-path' : ''), 
                 onClick: function() {
                     props.onTileClick(props.tileIndex);
                 }
@@ -87,6 +89,7 @@ class PlayField extends React.Component {
                         tileIndex: i,
                         selected: i == props.selectedIndex,
                         unselected: i == props.unselectedIndex || props.appearedIndices.includes(i),
+                        inPath: props.path.includes(i),
                         colorIndex: props.board[i],
                         onTileClick: props.onTileClick
                     })
@@ -114,7 +117,8 @@ class App extends React.Component {
             board: this.game.getBoard(), 
             selectedIndex: 1,
             unselectedIndex: 10,
-            appearedIndices: []
+            appearedIndices: [],
+            path: []
         };
         this.handleSelect = this.handleSelect.bind(this);
     }
@@ -125,6 +129,7 @@ class App extends React.Component {
             selectedIndex: this.state.selectedIndex,
             unselectedIndex: this.state.unselectedIndex,
             appearedIndices: this.state.appearedIndices,
+            path: this.state.path,
             onTileClick: this.handleSelect
         });
     }
@@ -134,24 +139,32 @@ class App extends React.Component {
         console.log(tileIndex);
         var unselectedIndex = -1;
         var appearedIndices = [];
+        var path = [];
         if (this.game.getBall(this.state.selectedIndex)) {
             unselectedIndex = this.state.selectedIndex; 
             if (this.game.getBall(tileIndex)) {
                 // move focus
             } else {
-                this.game.moveBall(this.state.selectedIndex, tileIndex);
-                appearedIndices.push(this.game.randomBallOnFreeTile());
-                appearedIndices.push(this.game.randomBallOnFreeTile());
-                appearedIndices.push(this.game.randomBallOnFreeTile());
-                console.log("new balls: " + appearedIndices);
-                tileIndex = -1;
+                path = this.game.findPath(this.state.selectedIndex, tileIndex);
+                if (path) {
+                    this.game.moveBall(this.state.selectedIndex, tileIndex);
+                    appearedIndices.push(this.game.randomBallOnFreeTile());
+                    appearedIndices.push(this.game.randomBallOnFreeTile());
+                    appearedIndices.push(this.game.randomBallOnFreeTile());
+                    console.log("new balls: " + appearedIndices);
+                    tileIndex = -1;
+                } else {
+                    path = [];
+                    tileIndex = this.state.selectedIndex;
+                }
             }
         }
         this.setState({
             board: this.game.getBoard(), 
             selectedIndex: tileIndex,
             unselectedIndex: unselectedIndex,
-            appearedIndices: appearedIndices
+            appearedIndices: appearedIndices,
+            path: path
         });
     }
 }
