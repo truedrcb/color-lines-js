@@ -163,6 +163,38 @@ QUnit.test("Long path", function (assert) {
     assert.notOk(game.findPath(0, 24));
 });
 
+QUnit.test("Find no line", function (assert) {
+    var game = new Game(7);
+    game.board = 
+        [ 
+            1, 0, 0, 0, 0, 0, 0, // 0
+            0, 0, 0, 0, 0, 0, 0, // 7
+            0, 0, 0, 0, 0, 0, 0, // 14
+            0, 0, 0, 0, 0, 0, 0, // 21
+            0, 0, 0, 0, 0, 0, 0, // 28
+            0, 0, 0, 0, 0, 0, 0, // 35
+            0, 0, 0, 0, 0, 0, 0  // 42
+        ];
+    
+    assert.deepEqual(game.findLongLines(0), []);
+});
+
+QUnit.test("Line too short", function (assert) {
+    var game = new Game(7);
+    game.board = 
+        [ 
+            1, 0, 0, 0, 0, 0, 0, // 0
+            0, 1, 0, 0, 0, 0, 0, // 7
+            0, 0, 1, 0, 0, 0, 0, // 14
+            0, 0, 0, 1, 0, 0, 0, // 21
+            0, 0, 0, 0, 0, 0, 0, // 28
+            0, 0, 0, 0, 0, 0, 0, // 35
+            0, 0, 0, 0, 0, 0, 0  // 42
+        ];
+    
+    assert.deepEqual(game.findLongLines(0), []);
+});
+
 QUnit.test("Find horizontal line", function (assert) {
     var game = new Game(7);
     game.board = 
@@ -176,5 +208,22 @@ QUnit.test("Find horizontal line", function (assert) {
             0, 0, 0, 0, 0, 0, 0  // 42
         ];
     
-    assert.deepEqual(game.findLines(16), [14, 15, 16, 17, 18, 19]);
+    assert.deepEqual(game.findLongLines(16), [[14, 15, 16, 17, 18, 19]]);
+});
+
+
+QUnit.test("Find 2 lines", function (assert) {
+    var game = new Game(7);
+    game.board = 
+        [ 
+            0, 0, 2, 0, 0, 0, 0, // 0
+            0, 1, 2, 0, 0, 0, 0, // 7
+            1, 1, 1, 1, 1, 1, 0, // 14
+            0, 0, 2, 1, 0, 0, 0, // 21
+            0, 0, 2, 0, 1, 0, 0, // 28
+            0, 0, 2, 0, 0, 1, 0, // 35
+            0, 0, 2, 0, 0, 0, 0  // 42
+        ];
+    
+    assert.deepEqual(game.findLongLines(16), [[14, 15, 16, 17, 18, 19], [8, 16, 24, 32, 40]]);
 });

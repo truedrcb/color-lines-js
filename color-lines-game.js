@@ -8,6 +8,7 @@ class Game {
         this.sizeY = sizeY || sizeX || 9;
         this.selectedIndex = -1;
         this.numberOfColors = 7;
+        this.minLineLength = 5;
 
         this.board = [];
         for (var y = 0, i = 0; y < this.sizeY; y++) {
@@ -170,5 +171,52 @@ class Game {
             nextTiles.push(tileIndex + this.sizeX);
         }
         return nextTiles;
+    }
+
+    nextTile(tileIndex, stepsRight, stepsDown) {
+        var tileX = (tileIndex % this.sizeX) + stepsRight;
+        var tileY = Math.floor(tileIndex / this.sizeX) + stepsDown;
+
+        if (tileX >= 0 && tileX < this.sizeX && tileY >= 0 && tileY < this.sizeY) {
+            return tileY * this.sizeX + tileX;
+        }
+    }
+
+    findLineByDirection(startTileIndex, stepX, stepY) {
+        var tileColor = this.board[startTileIndex];
+        var tiles = [startTileIndex];
+        var i;
+        i = startTileIndex;
+        for (;;) {
+            i = this.nextTile(i, stepX, stepY);
+            if (!i || this.board[i] !== tileColor) {
+                break;
+            }
+            tiles.push(i);
+        }
+
+        i = startTileIndex;
+        for (;;) {
+            i = this.nextTile(i, -stepX, -stepY);
+            if (!i || this.board[i] !== tileColor) {
+                break;
+            }
+            tiles.unshift(i);
+        }
+
+        return tiles;
+    }
+
+    findLongLines(fromTile) {
+        var lines = [];
+        [
+            {x: 1, y: 0}, {x: 0, y: 1}, {x: 1, y: 1}, {x: 1, y: -1}
+        ].forEach(function(direction) {
+            var line = this.findLineByDirection(fromTile, direction.x, direction.y);
+            if (line.length >= this.minLineLength) {
+                lines.push(line);
+            }
+        }.bind(this));
+        return lines;
     }
 }
