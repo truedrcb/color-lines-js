@@ -227,3 +227,67 @@ QUnit.test("Find 2 lines", function (assert) {
     
     assert.deepEqual(game.findLongLines(16), [[14, 15, 16, 17, 18, 19], [8, 16, 24, 32, 40]]);
 });
+
+QUnit.test("Find long line", function (assert) {
+    var game = new Game(7);
+    game.board = 
+        [ 
+            0, 0, 2, 0, 0, 0, 0, // 0
+            0, 1, 2, 0, 0, 0, 0, // 7
+            1, 2, 2, 1, 1, 1, 0, // 14
+            0, 0, 2, 2, 0, 0, 0, // 21
+            0, 0, 2, 0, 2, 0, 0, // 28
+            0, 0, 2, 0, 0, 2, 0, // 35
+            0, 0, 2, 0, 0, 0, 0  // 42
+        ];
+    
+    assert.deepEqual(game.findLongLines(16), [[2, 9, 16, 23, 30, 37, 44]]);
+});
+
+QUnit.test("Simplest score", function (assert) {
+    var game = new Game(7);
+    assert.strictEqual(game.countScoreIncrease([[1, 2, 3, 4]]), 0);
+    assert.strictEqual(game.countScoreIncrease([[1, 2, 3, 4, 5]]), 5);
+});
+
+QUnit.test("Extra long line score", function (assert) {
+    var game = new Game(7);
+    assert.strictEqual(game.countScoreIncrease([[1, 2, 3, 4, 5, 6]]), 7);
+    assert.strictEqual(game.countScoreIncrease([[1, 2, 3, 4, 5, 6, 7]]), 10);
+});
+
+QUnit.test("Combined line score", function (assert) {
+    var game = new Game(7);
+    assert.strictEqual(game.countScoreIncrease([[1, 2, 3, 4, 5, 6], [1, 2]]), 14);
+    assert.strictEqual(game.countScoreIncrease([[1, 2, 3, 4, 5, 6], [1, 2, 3]]), 19);
+    assert.strictEqual(game.countScoreIncrease([[1, 2, 3, 4, 5, 6], [1, 2, 3, 4]]), 25);
+});
+
+QUnit.test("Erase 2 lines", function (assert) {
+    var game = new Game(7);
+    game.board = 
+        [ 
+            0, 0, 2, 0, 0, 0, 0, // 0
+            0, 1, 2, 0, 0, 0, 0, // 7
+            1, 1, 1, 1, 1, 1, 0, // 14
+            0, 0, 2, 1, 0, 0, 0, // 21
+            0, 0, 2, 0, 1, 0, 0, // 28
+            0, 0, 2, 0, 0, 1, 0, // 35
+            0, 0, 2, 0, 0, 0, 0  // 42
+        ];
+    
+    var lines = game.findLongLines(16);
+    assert.deepEqual(lines, [[14, 15, 16, 17, 18, 19], [8, 16, 24, 32, 40]]);
+    assert.strictEqual(game.countScoreIncrease(lines), 32);
+    game.eraseLines(lines);
+    assert.deepEqual(game.board,
+        [ 
+            0, 0, 2, 0, 0, 0, 0, // 0
+            0, 0, 2, 0, 0, 0, 0, // 7
+            0, 0, 0, 0, 0, 0, 0, // 14
+            0, 0, 2, 0, 0, 0, 0, // 21
+            0, 0, 2, 0, 0, 0, 0, // 28
+            0, 0, 2, 0, 0, 0, 0, // 35
+            0, 0, 2, 0, 0, 0, 0  // 42
+        ]);
+});

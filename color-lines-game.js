@@ -219,4 +219,17 @@ class Game {
         }.bind(this));
         return lines;
     }
+
+    countScoreIncrease(lines) {
+        var sumLength = 0;
+        lines.forEach(line => sumLength += line.length);
+        if (sumLength < this.minLineLength) return 0;
+        sumLength -= this.minLineLength - 1;
+        return this.minLineLength + ((sumLength * (sumLength + 1)) / 2 - 1);
+    }
+
+    eraseLines(lines) {
+        var that = this;
+        lines.forEach(line => line.forEach(tileIndex => that.board[tileIndex] = 0));
+    }
 }

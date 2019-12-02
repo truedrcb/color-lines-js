@@ -76,7 +76,6 @@ class PlayField extends React.Component {
 
         return e('div', {className: 'container'}, rows);
     }
-
 }
 
 
@@ -93,20 +92,24 @@ class App extends React.Component {
             selectedIndex: -1,
             unselectedIndex: -1,
             appearedIndices: [],
-            path: []
+            path: [],
+            score: 0
         };
         this.handleSelect = this.handleSelect.bind(this);
     }
 
     render() {
-        return e(PlayField, {
-            board: this.state.board, 
-            selectedIndex: this.state.selectedIndex,
-            unselectedIndex: this.state.unselectedIndex,
-            appearedIndices: this.state.appearedIndices,
-            path: this.state.path,
-            onTileClick: this.handleSelect
-        });
+        return e('div', null, [
+            e('h2', {className: 'score'}, 'Score: ' + this.state.score),
+            e(PlayField, {
+                board: this.state.board, 
+                selectedIndex: this.state.selectedIndex,
+                unselectedIndex: this.state.unselectedIndex,
+                appearedIndices: this.state.appearedIndices,
+                path: this.state.path,
+                onTileClick: this.handleSelect
+            })]
+        );
     }
 
     handleSelect(tileIndex) {
@@ -115,6 +118,7 @@ class App extends React.Component {
         var unselectedIndex = -1;
         var appearedIndices = [];
         var path = [];
+        var score = this.state.score;
         if (this.game.getBall(this.state.selectedIndex)) {
             unselectedIndex = this.state.selectedIndex; 
             if (this.game.getBall(tileIndex)) {
@@ -123,8 +127,22 @@ class App extends React.Component {
                 path = this.game.findPath(this.state.selectedIndex, tileIndex);
                 if (path) {
                     this.game.moveBall(this.state.selectedIndex, tileIndex);
-                    for (var i = 0; i < 3; i++) {
-                        appearedIndices.push(this.game.randomBallOnFreeTile());
+                    var lines = this.game.findLongLines(tileIndex);
+                    var scoreIncrease = this.game.countScoreIncrease(lines);
+                    if (scoreIncrease > 0) {
+                        score += scoreIncrease;
+                        this.game.eraseLines(lines);
+                    } else {
+                        for (var i = 0; i < 3; i++) {
+                            var randomTileIndex = this.game.randomBallOnFreeTile(); 
+                            appearedIndices.push(randomTileIndex);
+                            lines = this.game.findLongLines(randomTileIndex);
+                            scoreIncrease = this.game.countScoreIncrease(lines);
+                            if (scoreIncrease > 0) {
+                                score += scoreIncrease;
+                                this.game.eraseLines(lines);
+                            }                            
+                        }
                     }
                     console.log("new balls: " + appearedIndices);
                     tileIndex = -1;
@@ -139,7 +157,8 @@ class App extends React.Component {
             selectedIndex: tileIndex,
             unselectedIndex: unselectedIndex,
             appearedIndices: appearedIndices,
-            path: path
+            path: path,
+            score: score
         });
     }
 }
