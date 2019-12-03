@@ -9,6 +9,10 @@ See gameplay video here: https://youtu.be/R_V3R1-wz9Y
 - Download all files or clone repository locally
 - Open `color-lines.html` in browser
 
+## Start directly from Github Pages
+
+- Open [this link](https://truedrcb.github.io/color-lines-js/color-lines.html) in browser
+
 # Rules
 
 - Field: 9 x 9 tiles
