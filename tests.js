@@ -244,6 +244,23 @@ QUnit.test("Find long line", function (assert) {
     assert.deepEqual(game.findLongLines(16), [[2, 9, 16, 23, 30, 37, 44]]);
 });
 
+QUnit.test("Find long at the top", function (assert) {
+    var game = new Game(7);
+    game.board = 
+        [ 
+            6, 6, 6, 6, 6, 0, 0, // 0
+            0, 1, 2, 0, 0, 0, 0, // 7
+            1, 2, 2, 1, 1, 1, 0, // 14
+            0, 0, 2, 2, 0, 0, 0, // 21
+            0, 0, 2, 0, 2, 0, 0, // 28
+            0, 0, 2, 0, 0, 2, 0, // 35
+            0, 0, 2, 0, 0, 0, 0  // 42
+        ];
+    
+    assert.deepEqual(game.findLongLines(0), [[0, 1, 2, 3, 4]]);
+    assert.deepEqual(game.findLongLines(1), [[0, 1, 2, 3, 4]]);
+});
+
 QUnit.test("Simplest score", function (assert) {
     var game = new Game(7);
     assert.strictEqual(game.countScoreIncrease([[1, 2, 3, 4]]), 0);

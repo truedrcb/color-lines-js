@@ -201,7 +201,7 @@ class Game {
         i = startTileIndex;
         for (;;) {
             i = this.nextTile(i, stepX, stepY);
-            if (!i || this.board[i] !== tileColor) {
+            if (i === undefined || this.board[i] !== tileColor) {
                 break;
             }
             tiles.push(i);
@@ -210,7 +210,7 @@ class Game {
         i = startTileIndex;
         for (;;) {
             i = this.nextTile(i, -stepX, -stepY);
-            if (!i || this.board[i] !== tileColor) {
+            if (i === undefined || this.board[i] !== tileColor) {
                 break;
             }
             tiles.unshift(i);

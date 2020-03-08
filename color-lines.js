@@ -6,7 +6,7 @@ const colors = [
     'POMEGRANATE', //red,
     'WISTERIA', //magenta,
     'BELIZE-HOLE', //blue,
-    'TURQUOISE', //cyan,
+    'WET-ASPHALT', //cyan,
     'SUN-FLOWER', //yellow,
     'NEPHRITIS', //green,
     'CARROT' //orange
@@ -74,7 +74,7 @@ class PlayField extends React.Component {
             rows.push(e('tr', {key: y, className: ''}, cells));
         }
 
-        return e('table', {className: 'container'}, rows);
+        return e('table', {className: 'container'}, e('tbody', {}, rows));
     }
 }
 
@@ -93,15 +93,17 @@ class App extends React.Component {
             unselectedIndex: -1,
             appearedIndices: [],
             path: [],
-            score: 0
+            score: 0,
+            countTurns: 0
         };
         this.handleSelect = this.handleSelect.bind(this);
     }
 
     render() {
         return e('div', null, [
-            e('h2', {className: 'score'}, 'Score: ' + this.state.score),
+            e('h2', {key: "head" + this.state.countTurns, className: 'score'}, 'Score: ' + this.state.score),
             e(PlayField, {
+                key: "field" + this.state.countTurns,
                 board: this.state.board, 
                 selectedIndex: this.state.selectedIndex,
                 unselectedIndex: this.state.unselectedIndex,
@@ -135,11 +137,12 @@ class App extends React.Component {
                             this.game.moveBall1Step(path);
                             this.setState({
                                 board: this.game.getBoard(), 
-                                selectedIndex: -1,
+                                selectedIndex: this.state.selectedIndex,
                                 unselectedIndex: -1,
                                 appearedIndices: [],
                                 path: path,
-                                score: this.state.score
+                                score: this.state.score,
+                                countTurns: this.state.countTurns + 1
                             });
                             return;
                         }
@@ -176,7 +179,8 @@ class App extends React.Component {
                             unselectedIndex: -1,
                             appearedIndices: appearedIndices,
                             path: [],
-                            score: score
+                            score: score,
+                            countTurns: this.state.countTurns + 1
                         });
 
                     }, 150);
@@ -192,7 +196,8 @@ class App extends React.Component {
             unselectedIndex: unselectedIndex,
             appearedIndices: appearedIndices,
             path: path,
-            score: this.state.score
+            score: this.state.score,
+            countTurns: this.state.countTurns + 1
         });
     }
 }
