@@ -291,3 +291,53 @@ QUnit.test("Erase 2 lines", function (assert) {
             0, 0, 2, 0, 0, 0, 0  // 42
         ]);
 });
+
+QUnit.test("Generate board animation: Move selected ball step by step", function (assert) {
+    var game = new Game(3);
+    game.setBall(0, 3);
+    assert.deepEqual(game.board,
+        [ 
+            3, 0, 0, // 0
+            0, 0, 0, // 3
+            0, 0, 0  // 6
+        ]);
+    var path = [0, 1, 2, 5, 8];
+
+    game.moveBall1Step(path);
+    assert.deepEqual(game.board,
+        [ 
+            0, 3, 0, // 0
+            0, 0, 0, // 3
+            0, 0, 0  // 6
+        ]);
+    assert.deepEqual(path, [1, 2, 5, 8]);
+
+    game.moveBall1Step(path);
+    game.moveBall1Step(path);
+    assert.deepEqual(game.board,
+        [ 
+            0, 0, 0, // 0
+            0, 0, 3, // 3
+            0, 0, 0  // 6
+        ]);
+    assert.deepEqual(path, [5, 8]);
+
+    game.moveBall1Step(path);
+    assert.deepEqual(game.board,
+        [ 
+            0, 0, 0, // 0
+            0, 0, 0, // 3
+            0, 0, 3  // 6
+        ]);
+    assert.deepEqual(path, [8]);
+
+    // Do not do anything, since the path is too short (shorter as 2)
+    game.moveBall1Step(path);
+    assert.deepEqual(game.board,
+        [ 
+            0, 0, 0, // 0
+            0, 0, 0, // 3
+            0, 0, 3  // 6
+        ]);
+    assert.deepEqual(path, [8]);
+});

@@ -58,6 +58,18 @@ class Game {
         this.board[fromTile] = 0;
     }
 
+    /**
+     * Move ball at 1 step of the specified path. Shorten the path
+     * @param {Array} path Tile numbers list (path to go)
+     */
+    moveBall1Step(path) {
+        if (path.length < 2) {
+            return;
+        }
+        this.moveBall(path[0], path[1]);
+        path.shift();
+    }
+
     randomBallOnFreeTile() {
         var numberOfTiles = this.getBoardSize();
         var numberOfFreeTiles = numberOfTiles - this.countBalls();
