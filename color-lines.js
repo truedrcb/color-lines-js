@@ -25,8 +25,8 @@ class Tile extends React.Component {
                 color = colors[this.props.colorIndex - 1];
             }
         }
-        return e('div', {
-                className: 'col tile' 
+        return e('td', {}, e('div', {
+                className: 'tile' 
                     + (props.unselected ? ' tile-fade' : '') 
                     + (props.inPath ? ' tile-path' : ''), 
                 onClick: function() {
@@ -37,7 +37,7 @@ class Tile extends React.Component {
                 + (color ? (' fas fa-bowling-ball ball ' + color) : ' far fa-circle no-ball') 
                 + (props.selected ? ' selected' : '')
             }, '')
-        )        
+        ))        
     }
 
 }
@@ -71,10 +71,10 @@ class PlayField extends React.Component {
                 );
                 i++;
             }
-            rows.push(e('div', {key: y, className: 'row'}, cells));
+            rows.push(e('tr', {key: y, className: ''}, cells));
         }
 
-        return e('div', {className: 'container'}, rows);
+        return e('table', {className: 'container'}, rows);
     }
 }
 
